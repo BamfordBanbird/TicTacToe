@@ -1,6 +1,6 @@
 import BoardClass
 
-b = BoardClass.Board(4,4)
+b = BoardClass.Board(3,3)
 b.listInit()
 
 b.printBoard() #Make init function
