@@ -1,13 +1,13 @@
 import BoardClass
 
-b = BoardClass.Board(3,3)
+b = BoardClass.Board(4,4)
 b.listInit()
 
 b.printBoard() #Make init function
 
 turnNum = 0
 
-while turnNum < 9:
+while turnNum < b.gridSize:
     b.markSelection(turnNum)
     b.printBoard()
     b.checkForWin()

@@ -35,7 +35,7 @@ class Board:
         while userValid == False:
             while 1:
                 try:
-                    userInput = int(input("Please input a number."))
+                    userInput = int(input("Please input a number:"))
                     break
                 
                 except:
