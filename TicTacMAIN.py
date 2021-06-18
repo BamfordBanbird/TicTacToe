@@ -18,5 +18,5 @@ while turnNum < b.gridSize:
 
     turnNum += 1
 
-if turnNum >= 9:
+if turnNum >= b.gridSize:
     print ("DRAW")
