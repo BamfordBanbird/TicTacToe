@@ -1,14 +1,5 @@
-#look up sets
-
 
 class Board:
-
-    def __init__ (self, columns, rows):
-        self.columns = columns
-        self.rows = rows
-        self.gridSize = columns * rows
-        self.gridList = []
-        self.gameOver = False
 
     def listInit(self):
         idx = 1
@@ -20,51 +11,49 @@ class Board:
             self.gridList.append(newList)
             idx += self.columns
 
+    def __init__ (self):
+        self.columns = 3
+        self.rows = 3
+        self.gridSize = 9
+        self.gridList = [] #Nested list
+        self.gameOver = False
+        self.listInit()
+
+    def chooseOpponent(self):
+        while 1:
+            userInput = input('''Would you like to play against an AI or a human?
+Enter 1 for Human or 2 for AI.''')
+            if userInput != '1' and userInput != '2':
+                print ("Please input either 1 or 2")
+                continue
+            elif userInput == '1':
+                print('You have chosen to play against a human.')
+                return userInput
+            elif userInput == '2':
+                print('You have chosen to play against an AI')
+                return userInput
+
+
+
     def printBoard(self):
         for item in self.gridList:
-            print (*item, sep = " | ")
+            print(*item, sep = " | ")
             
     def checkForTurn(self, idx):
-        if idx % 2 == 0:
-            return "X"
-        else:
-            return "O"
-        
-    def userSelection(self):
-        userValid = False
-        while userValid == False:
-            while 1:
-                try:
-                    userInput = int(input("Please input a number:"))
-                    break
-                
-                except:
-                    print ("Selections must be numbers only.")
-                    continue
-            if 0<userInput<=self.gridSize:
-                #I need a better way to iterate through the nested array
-                for i in range(self.columns):
-                    for j in self.gridList[i]:
-                        if j == userInput:
-                            return userInput
-                if userValid == False:
-                    print("Please select a number that hasn't been chosen already")
-            else:
-                print ("Please input a number between 1 and "+str(self.gridSize))
+        return 'O' if idx % 2 else 'X'
         
 
-    def markSelection(self, turnNumber):
+    def markSelection(self, turnNumber, playerChoice):
         playerToken = self.checkForTurn(turnNumber)
-        playerChoice = self.userSelection()
         for i in range(len(self.gridList)):
             for j in range(len(self.gridList[i])):
                 if self.gridList[i][j] == playerChoice:
                     self.gridList[i][j] = playerToken
 
     def winLogic(self,anySet):
-            if len(anySet) == 1:
-                print(str(anySet)+' WINNER')
-                self.gameOver = True
+        if len(anySet) == 1:
+            print(str(anySet)+' WINNER')
+            self.gameOver = True
         
 
     def checkForWin(self):
@@ -81,25 +70,17 @@ class Board:
 
 
             #This is janky
-        for j in range(1): # I don't understand why this is needed, but it doesn't work without
-            #Also I think this only works for square boards where the win condition = the length of the board
-            seThree = set() #diagonal forward
-            seFour = set() #diagonal backward
+
+            seThree = set() 
+            seFour = set() 
             idx = 0
             for i in range(self.rows):
-                seThree.add(self.gridList[i][j+idx])
-                seFour.add(self.gridList[i][j+self.columns-1-idx])
+                seThree.add(self.gridList[i][i])
+                seFour.add(self.gridList[i][self.columns-1-i])
                 idx += 1
 
-            self.winLogic(seThree)
-            self.winLogic(seFour)
-        #Diagonal Wins
-
-        '''seThree = {self.gridList[0][0], self.gridList[1][1], self.gridList[2][2]}
         self.winLogic(seThree)
-        seFour = {self.gridList[2][0], self.gridList[1][1], self.gridList[0][2]}
-        self.winLogic(seFour)'''
-        
+        self.winLogic(seFour)
         
         
             

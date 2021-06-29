@@ -1,14 +1,27 @@
 import BoardClass
+import PlayerClass
+import CPUClass
 
-b = BoardClass.Board(3,3)
-b.listInit()
+b = BoardClass.Board()
 
-b.printBoard() #Make init function
+opponent = b.chooseOpponent()
+b.printBoard()
+
+p1 = PlayerClass.Player()
+
+if opponent == '1':
+    p2 = PlayerClass.Player()
+else:
+    p2 = CPUClass.CPU()
 
 turnNum = 0
 
 while turnNum < b.gridSize:
-    b.markSelection(turnNum)
+    if turnNum % 2 == 0:
+        playerChoice = p1.moveSelection(b.gridList)
+    else:
+        playerChoice = p2.moveSelection(b.gridList)
+    b.markSelection(turnNum, playerChoice)
     b.printBoard()
     b.checkForWin()
 
